@@ -1,0 +1,13 @@
+{
+	"name": "QTool",
+	"version": "1.0.6",
+	"manifest_version": 2,
+	"description": "Плагин для упращения работы с таском.",
+	"permissions": ["tabs", "clipboardWrite", "clipboardRead"],
+	"web_accessible_resources" : ["js/*", "css/*"],
+	"content_scripts":[{
+		"matches":["http://www.corp.qsoft.ru/bitrix/admin/*", "http://www.corp.qsoft.ru/support/*"],
+		"css" : ["css/nprogress.css", "css/bootstrap.css", "css/colorPicker.css", "css/style.css"],
+		"js":["js/jquery.min.js", "js/nprogress.js", "js/bootstrap.min.js", "js/jquery.colorPicker.min.js", "js/qsoft.js"]
+	}]
+}
