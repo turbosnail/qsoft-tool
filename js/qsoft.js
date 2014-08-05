@@ -97,11 +97,7 @@ var options = {
 
 					// ПЕРВЫЙ ВАРИАНТ: Текст задается программно
 					this.jQuery("#click-to-copy").on('click', function(){
-						var input = document.getElementById( 'url' );
-  						input.value = 'dsadsadsadsadsas';
-  						input.focus();
-  						input.select();
-  						document.execCommand( 'Copy' );
+						chrome.extension.sendRequest({ text: options.jQuery('#nameTitle').text() });
 					});
 
 				} else {
