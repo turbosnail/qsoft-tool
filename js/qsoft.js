@@ -14,7 +14,8 @@ var options = {
 					newmenu: {type: 'checkbox', name: 'Использовать новое меню', default: 'Y'},
 					fixnewmenu: {type: 'checkbox', name: 'Зафиксировать новое меню с верху', default: 'Y'},
 					autoGroup: {type: 'checkbox', name: 'Группировать тикеты автоматически?', default: 'Y'},
-					color: {type: 'text', name: 'Цвет тикета ответсвенный', default: '', style: {}}
+					color: {type: 'text', name: 'Цвет тикета ответсвенный', default: '', style: {}},
+					ticket_format: {type: 'text', name: 'Формат названия тикета', default: '', style: {}}
 				}
 			},
 
@@ -93,11 +94,20 @@ var options = {
 					var tName = this.jQuery('td.title').hide().text();
 					this.jQuery('td.toppanel').before('<div class="navbar"></div>');
 					this.jQuery('.navbar').append('<div class="navbar-inner" style="height: 40px;"><div class="container" style="width: 98%;"><a class="brand" href="' + location.href + '" style="padding-top: 8px;" title="Обновить страницу"><strong>QSOFT Task</strong></a></div></div>');
-					this.jQuery('.navbar .container').append('<div class="nav-collapse collapse navbar-responsive-collapse" id="navigationContainer"><ul class="nav" role="navigation"><li class="active" style="padding-top: 10px; font-size: 19px;font-weight: bolder;font-family: Tahoma;font-style: italic;color: gray;"><span id="nameTitle">'+tID+' / '+tName+'</span>  <button id="click-to-copy">(Скопировать)</button></li></ul></div>')
+					
+					var format_ticket = localStorage.getItem('ticket_format');
+					
+					format_ticket = format_ticket.replace('#ID#', tID);
+					format_ticket = format_ticket.replace('#TITLE#', tName);
+
+					this.jQuery('.navbar .container').append('<div class="nav-collapse collapse navbar-responsive-collapse" id="navigationContainer"><ul class="nav" role="navigation"><li class="active" style="padding-top: 10px; font-size: 19px;font-weight: bolder;font-family: Tahoma;font-style: italic;color: gray;"><span id="nameTitle">'+format_ticket+'</span>  <button class="btn btn-mini" type="button" id="click-to-copy" style="margin-top: -3px;">(копировать)</button></li></ul></div>')
 
 					// ПЕРВЫЙ ВАРИАНТ: Текст задается программно
 					this.jQuery("#click-to-copy").on('click', function(){
+						var old_text = options.jQuery(this).text();
+						options.jQuery(this).text('Копируется').focus();
 						chrome.extension.sendRequest({ text: options.jQuery('#nameTitle').text() });
+						options.jQuery(this).text(old_text).focusout();
 					});
 
 				} else {
